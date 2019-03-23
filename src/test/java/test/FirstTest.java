@@ -1,25 +1,14 @@
 package test;
 
-import java.util.concurrent.TimeUnit;
 import org.junit.*;
+
 import static org.junit.Assert.*;
+
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class FirstTest {
-    private WebDriver driver;
-    private StringBuffer verificationErrors = new StringBuffer();
-
-    @Before
-    public void setUp() throws Exception {
-
-        driver = new FirefoxDriver();
-
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    }
-
+public class FirstTest extends BaseRunner {
     @Test
-    public void test1() throws Exception {
+    public void test1() {
         driver.get("https://www.tinkoff.ru/career/vacancies/");
         driver.findElement(By.name("name")).click();
         driver.findElement(By.name("birthday")).click();
@@ -36,8 +25,9 @@ public class FirstTest {
         assertEquals("Поле обязательное", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Мобильный телефон'])[1]/following::div[2]")).getText());
         assertEquals("Поле обязательное", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='загрузите резюме/портфолио'])[1]/following::div[1]")).getText());
     }
+
     @Test
-    public void testInvalidData() throws Exception {
+    public void testInvalidData() {
         driver.get("https://www.tinkoff.ru/career/vacancies/");
         driver.findElement(By.name("name")).click();
         driver.findElement(By.name("name")).clear();
@@ -59,15 +49,6 @@ public class FirstTest {
         assertEquals("Поле заполнено некорректно", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Дата рождения'])[1]/following::div[3]")).getText());
         assertEquals("Введите корректный адрес эл. почты", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Электронная почта'])[1]/following::div[2]")).getText());
         assertEquals("Код города/оператора должен начинаться с цифры 3, 4, 5, 6, 8, 9", driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Мобильный телефон'])[1]/following::div[2]")).getText());
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
-        String verificationErrorString = verificationErrors.toString();
-        if (!"".equals(verificationErrorString)) {
-            fail(verificationErrorString);
-        }
     }
 
 
