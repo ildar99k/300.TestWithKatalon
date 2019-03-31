@@ -22,7 +22,7 @@ public enum BrowserFactory {
         return null;
     }
 
-    void updateBrowserProp(String name) {
+     void updateBrowserProp(String name) {
         if (System.getProperty("browser") == null) System.setProperty("browser", name);
         System.out.println("Use " + name);
     }
