@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BrowserTabSwitchTest extends BaseRunner{
     @Test
@@ -17,7 +18,6 @@ public class BrowserTabSwitchTest extends BaseRunner{
         driver.findElement(By.xpath("//input[@class='gLFyf gsfi']")).sendKeys("мобайл тинькофф");
         By listItems = By.xpath("//ul[@role='listbox']/li[@role='presentation' and .//*[@role='option']]");
         List<WebElement> elements = driver.findElements(listItems);
-        System.out.println(elements);
         for (WebElement el : elements) {
             System.out.println(el);
             if (el.getText().contains("мобайл тинькофф тарифы")) {
@@ -35,7 +35,7 @@ public class BrowserTabSwitchTest extends BaseRunner{
         driver.switchTo().window(tabs2.get(1));
         WebDriverWait wait=new WebDriverWait(driver,60);
         wait.until(driver->driver.getTitle().contains(title));
-        if (driver.getCurrentUrl()!=searchText){
+        if (!Objects.equals(driver.getCurrentUrl(), searchText)){
             System.out.println("Не ту вкладку закрыл");
         }
     }
