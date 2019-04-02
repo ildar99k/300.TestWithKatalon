@@ -1,5 +1,11 @@
-Программа для изучения работы Katalon Recorder и Selenium
-Для работы программы нужно добавить в перменную среды PATH путь к папке с драйверами для браузера chrome
-Тесты запускаются исключительно в chrome
+Программа для изучения работы Katalon Recorder и Selenium.
+
+Для работы программы нужно добавить в переменную среды PATH путь к папке с драйверами для браузера chrome.
+
+Тесты запускаются исключительно в chrome.
+
 Строки запуска maven:
-Запуск тестов в хроме с командной строки -Dtest=BrowserTabSwitchTest,RegionChangesTest,testActiveBotton
+
+Запуск тестов в хроме с командной строки 
+
+-Dtest=BrowserTabSwitchTest,RegionChangesTest,testActiveBotton
