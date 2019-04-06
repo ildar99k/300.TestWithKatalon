@@ -19,18 +19,16 @@ public class Selector {
 
     public static List<WebElement> getSelectElementsInGoogleByXpath(String xpath) {
         By listItems = By.xpath(xpath);
+
         return Application.getWebDriver().findElements(listItems);
     }
 
     public static List<WebElement> getSelectOptions(String xpath) {
-        WebElement selectElem = Application.getWebDriver().findElement(By.tagName("select"));
+        WebElement selectElem = Application.getWebDriver().findElement(By.xpath(xpath));
         Select select = new Select(selectElem);
         return select.getOptions();
     }
 
-    public static WebElement getCurrentValueOfSelect(String nameWhatSelect) {
-        return Application.getWebDriver().findElement(By.xpath(".//span[contains(text(),'" + nameWhatSelect + "')]/following-sibling::div"));
-    }
 
     public static List<WebElement> getElementsFromSelectorByXpath(String xpath) {
         List<WebElement> elements = null;

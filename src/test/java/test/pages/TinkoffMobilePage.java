@@ -1,6 +1,5 @@
 package test.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -8,12 +7,11 @@ import test.helpers.Checkbox;
 import test.helpers.Selector;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class TinkoffMobilePage extends Page {
-    public TinkoffMobilePage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
+    public TinkoffMobilePage(WebDriver webDriver) {
+        super(webDriver);
+        PageFactory.initElements(webDriver, this);
     }
 
     @Override
@@ -23,7 +21,7 @@ public class TinkoffMobilePage extends Page {
     }
 
     private int getTotalPrice() {
-        return Integer.parseInt(webDriver.findElement(By.xpath(".//*[contains(text(),'Общая цена')]")).getText().replaceAll("[^0-9]+", ""));
+        return Integer.parseInt(searchElementsByTextContains("Общая цена").get(0).getText().replaceAll("[^0-9]+", ""));
     }
 
     public int getDefaultPriceForRegion(String region) {
@@ -36,27 +34,26 @@ public class TinkoffMobilePage extends Page {
         getElementByXpath(".//div[contains(@class,'RegionConfirmation__title')]").click();
         searchElementsByTextContains(region).get(0).click();
         getElementByXpath(".//span[contains(text(),'Интернет')]/following-sibling::div").click();
-        List<WebElement> selectElements = Selector.getElementsFromSelectorByXpath(".//div[contains(@class, 'ui-form__row')][1]//span[@class='ui-dropdown-field-list__item-text']");
-        webDriver.manage().timeouts().setScriptTimeout(1, TimeUnit.SECONDS); //Лучше ничего не придумал(
+        List<WebElement> selectElements = Selector.getElementsFromSelectorByXpath("//div[@class='ui-dropdown-field-list ui-dropdown-field-list__opened']//span[@class='ui-dropdown-field-list__item-text']");
         selectElements.get(selectElements.size() - 1).click();//макс выбор для интернета
         getElementByXpath(".//span[contains(text(),'Звонки')]/following-sibling::div").click();
-        webDriver.manage().timeouts().setScriptTimeout(1, TimeUnit.SECONDS);
-        selectElements = Selector.getElementsFromSelectorByXpath(".//div[contains(@class, 'ui-form__row')][2]//span[@class='ui-dropdown-field-list__item-text']");
+        selectElements = Selector.getElementsFromSelectorByXpath("//div[@class='ui-dropdown-field-list ui-dropdown-field-list__opened']//span[@class='ui-dropdown-field-list__item-text']");
         selectElements.get(selectElements.size() - 1).click();//макс выбор для звонков
-        Checkbox.markAllCheckBoxes(Checkbox.getCheckBoxesByXpath(".//div[contains(@class,'CheckboxWithDescription')]/div"));
+        Checkbox.markAll(Checkbox.getByXpath(".//div[contains(@class,'CheckboxWithDescription')]/div"));
         return getTotalPrice();
     }
 
     public int getZeroPrice() {
         getElementByXpath(".//span[contains(text(),'Интернет')]/following-sibling::div").click();
-        List<WebElement> selectElements = Selector.getElementsFromSelectorByXpath(".//div[contains(@class, 'ui-form__row')][1]//span[@class='ui-dropdown-field-list__item-text']");
-        webDriver.manage().timeouts().setScriptTimeout(2, TimeUnit.SECONDS); //Лучше ничего не придумал(
+        driverWait.until(webDriver -> Selector.getElementsFromSelectorByXpath("//div[@class='ui-dropdown-field-list ui-dropdown-field-list__opened']//span[@class='ui-dropdown-field-list__item-text']").get(0).isDisplayed());
+        List<WebElement> selectElements = Selector.getElementsFromSelectorByXpath("//div[@class='ui-dropdown-field-list ui-dropdown-field-list__opened']//span[@class='ui-dropdown-field-list__item-text']");
         selectElements.get(0).click();//мин выбор для интернета
         getElementByXpath(".//span[contains(text(),'Звонки')]/following-sibling::div").click();
-        webDriver.manage().timeouts().setScriptTimeout(2, TimeUnit.SECONDS);
-        selectElements = Selector.getElementsFromSelectorByXpath(".//div[contains(@class, 'ui-form__row')][2]//span[@class='ui-dropdown-field-list__item-text']");
+        selectElements = Selector.getElementsFromSelectorByXpath("//div[@class='ui-dropdown-field-list ui-dropdown-field-list__opened']//span[@class='ui-dropdown-field-list__item-text']");
+        List<WebElement> finalSelectElements1 = selectElements;
+        driverWait.until(webDriver -> finalSelectElements1.get(0).isDisplayed());
         selectElements.get(0).click();//мин выбор для звонков
-        Checkbox.unmarkAllCheckBoxes(Checkbox.getCheckBoxesByXpath(".//div[contains(@class,'CheckboxWithDescription')]/div"));
+        Checkbox.unmarkAll(Checkbox.getByXpath(".//div[contains(@class,'CheckboxWithDescription')]/div"));
         return getTotalPrice();
     }
 }

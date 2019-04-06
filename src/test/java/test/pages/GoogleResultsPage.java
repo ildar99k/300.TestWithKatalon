@@ -9,8 +9,8 @@ public class GoogleResultsPage extends Page {
         PageFactory.initElements(webDriver, this);
     }
 
-    public void clickSearchResultsByLinkContains(String link){
-        driverWait.until(webDriver ->  searchElementsByTextContains(link).size() > 0);
+    public void clickSearchResultsByLinkContains(String link) {
+        driverWait.until(webDriver -> searchElementsByTextContains(link).size() > 0);
         searchElementsByTextContains(link).get(0).click();
     }
 }
